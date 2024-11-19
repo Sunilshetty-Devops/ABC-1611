@@ -35,4 +35,3 @@ RUN echo "1 * * * * abc /home/abc/script_folde/shell123.sh 1" >> /etc/cron.d/abc
 
 # Start the cron service
 CMD ["cron", "-f"]
-
