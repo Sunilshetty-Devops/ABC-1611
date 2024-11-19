@@ -15,14 +15,12 @@ FROM base AS intermediate
 COPY --from=base /abc /home/abc/script_folde
 WORKDIR /abc
 # Copy the shell script into the container
-COPY ./script.sh /home/abc/script_folde/
+COPY ./shell123.sh /home/abc/script_folde/
 
 # Change the permissions to execute
-RUN chmod +x /home/abc/script_folder/script.sh
-
+RUN chmod +x /home/abc/script_folde/shell123.sh
 # Setup cron job to run the script
-RUN echo "0 * * * * abc /home/abc/script_folder/shell123.sh 0" >> /etc/cron.d/abc-cron
-
+RUN echo "0 * * * * abc /home/abc/script_folde/shell123.sh 0" >> /etc/cron.d/abc-cron
 # Stage 3: Clean up stage
 FROM intermediate AS cleanup
 
@@ -33,7 +31,7 @@ RUN service cron start && sleep 10 && crontab /etc/cron.d/abc-cron
 FROM cleanup AS final
 
 # Run the script as cron with 1 as input as abc user
-RUN echo "1 * * * * abc /home/abc/script_folder/shell123.sh 1" >> /etc/cron.d/abc-cron
+RUN echo "1 * * * * abc /home/abc/script_folde/shell123.sh 1" >> /etc/cron.d/abc-cron
 
 # Start the cron service
 CMD ["cron", "-f"]
